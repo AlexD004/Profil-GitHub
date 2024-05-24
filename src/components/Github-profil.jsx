@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function GithubProfil() {
+function GithubProfil({user}) {
 
     const [userData, setuserData] = useState({
         userName: "",
@@ -14,12 +14,12 @@ function GithubProfil() {
 
     });
 
-    useEffect( () => {
-        fetch("https://api.github.com/users/github-john-doe")
+    const userURL = "https://api.github.com/users/" + user;
+    const getUserDatas = () => {
+        fetch( userURL )
             .then( (res) => res.json() )
             .then(
                 (result) => {
-                    console.log(result);
                     setuserData({ 
                         ...userData,
                         userName : result.name,
@@ -36,7 +36,9 @@ function GithubProfil() {
                     console.log(error);
                 }
             );
-    }, []);
+    }
+
+    useEffect( () => { getUserDatas() }, []);
 
     return (
       <div className="GithubProfil">
